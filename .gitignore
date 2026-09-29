@@ -1,23 +1,20 @@
 # Terraform
 .terraform/
 *.tfstate
-*.tfstate.backup
-*.tfvars
+*.tfstate.*
 
-# Ansible
-*.retry
-inventory/
-group_vars/
-host_vars/
-vault/
-.vault_pass
-
-# Общие
-.DS_Store
-Thumbs.db
-*.log
-tmp/
-temp/
+# Секреты
+*.json
+*.pem
 *.key
 *.pub
-sa-key.json
+
+# Ansible
+.ansible/
+retry_files/
+*.retry
+
+# Прочее
+.DS_Store
+__pycache__/
+
