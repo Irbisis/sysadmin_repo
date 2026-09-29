@@ -1,0 +1,41 @@
+- name: Установить nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Создать каталог для страницы
+  file:
+    path: /var/www/html
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Разместить index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+  notify: reload nginx
+
+- name: Разместить конфиг backend
+  template:
+    src: backend.conf.j2
+    dest: /etc/nginx/sites-available/backend
+    mode: '0644'
+  notify: reload nginx
+
+- name: Удалить дефолтный сайт
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
+
+- name: Включить конфиг backend
+  file:
+    src: /etc/nginx/sites-available/backend
+    dest: /etc/nginx/sites-enabled/backend
+    state: link
+  notify: reload nginx

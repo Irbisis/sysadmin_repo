@@ -1,0 +1,11 @@
+- name: Настройка nginx на backend1 и backend2
+  hosts: backends
+  become: true
+  roles:
+    - backend
+
+- name: Настройка nginx-балансировщика на proxy
+  hosts: proxy
+  become: true
+  roles:
+    - proxy

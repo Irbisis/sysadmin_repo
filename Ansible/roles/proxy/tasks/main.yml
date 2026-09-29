@@ -1,0 +1,36 @@
+- name: Установить nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Разместить конфиг балансировщика
+  template:
+    src: proxy.conf.j2
+    dest: /etc/nginx/sites-available/proxy
+    mode: '0644'
+  notify: reload nginx
+
+- name: Удалить дефолтный сайт
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
+
+- name: Включить конфиг proxy
+  file:
+    src: /etc/nginx/sites-available/proxy
+    dest: /etc/nginx/sites-enabled/proxy
+    state: link
+  notify: reload nginx
+
+- name: Проверить конфигурацию nginx
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+
+- name: Перезагрузить nginx (если конфиг валиден)
+  service:
+    name: nginx
+    state: reloaded
+  when: nginx_test.rc == 0
