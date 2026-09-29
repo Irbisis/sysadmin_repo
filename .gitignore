@@ -2,7 +2,7 @@
 .terraform/
 *.tfstate
 *.tfstate.*
-
+*.provider
 # Секреты
 *.json
 *.pem
