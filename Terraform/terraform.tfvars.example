@@ -1,0 +1,4 @@
+cloud_id       = "<YOUR_CLOUD_ID>"
+folder_id      = "<YOUR_FOLDER_ID>"
+zone           = "ru-central1-d"
+ssh_public_key = "<YOUR_SSH_PUBLIC_KEY>"
